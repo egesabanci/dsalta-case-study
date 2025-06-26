@@ -4,6 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { AuthModule } from '@dsalta-case/auth';
 import { AuthGuard } from '@dsalta-case/guards';
@@ -19,6 +20,12 @@ const modules = [
     global: true,
     secret: process.env.JWT_SECRET,
   }),
+  ThrottlerModule.forRoot([
+    {
+      ttl: 60_000,
+      limit: 10,
+    },
+  ]),
 
   AuthModule,
   TaskModule,
@@ -28,6 +35,10 @@ const providers = [
   {
     provide: APP_GUARD,
     useClass: AuthGuard,
+  },
+  {
+    provide: APP_GUARD,
+    useClass: ThrottlerGuard,
   },
 ];
 
