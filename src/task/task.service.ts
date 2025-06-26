@@ -1,11 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
+import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
 
-import { plainToInstance } from 'class-transformer';
-
-import { CreateTaskDTO, TaskFilterDTO, TaskResponseDTO, UpdateTaskDTO } from './dto';
+import {
+	CreateTaskDTO,
+	TaskFilterDTO,
+	TaskResponseDTO,
+	UpdateTaskDTO,
+} from './dto';
 import { Task } from './entities/task.entity';
 import { ITaskService } from './interfaces';
 

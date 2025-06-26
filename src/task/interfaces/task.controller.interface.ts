@@ -1,4 +1,9 @@
-import { CreateTaskDTO, TaskFilterDTO, TaskResponseDTO, UpdateTaskDTO } from '../dto';
+import {
+	CreateTaskDTO,
+	TaskFilterDTO,
+	TaskResponseDTO,
+	UpdateTaskDTO,
+} from '../dto';
 
 export interface ITaskController {
 	create(payload: CreateTaskDTO): Promise<TaskResponseDTO>;

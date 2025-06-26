@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-
-import { Repository } from 'typeorm';
-
 import * as bcrypt from 'bcrypt';
-
+import { Repository } from 'typeorm';
+import { AuthError } from '../errors';
 import { AuthRequestDTO, AuthResponseDTO } from './dto';
 import { User } from './entities';
 import { IAuthService } from './interfaces';
-
-import { AuthError } from '../errors';
 
 @Injectable()
 export class AuthService implements IAuthService {

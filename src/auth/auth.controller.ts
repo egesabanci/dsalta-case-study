@@ -1,3 +1,4 @@
+import { Public } from '@dsalta-case/decorators';
 import {
 	Body,
 	ClassSerializerInterceptor,
@@ -15,8 +16,6 @@ import {
 	ApiTags,
 	ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-
-import { Public } from '@dsalta-case/decorators';
 
 import { AuthService } from './auth.service';
 import { AuthRequestDTO, AuthResponseDTO } from './dto';

@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CacheModule } from '@nestjs/cache-manager';
 
 import { AuthModule } from '@dsalta-case/auth';
 import { AuthGuard } from '@dsalta-case/guards';
@@ -13,6 +14,7 @@ import { config } from '../ormconfig';
 const modules = [
   TypeOrmModule.forRoot({ ...config }),
   ConfigModule.forRoot({ isGlobal: true }),
+  CacheModule.register({ isGlobal: true }),
   JwtModule.register({
     global: true,
     secret: process.env.JWT_SECRET,

@@ -1,16 +1,12 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-
-import { Repository } from 'typeorm';
-
 import * as bcrypt from 'bcrypt';
-
+import { Repository } from 'typeorm';
+import { AuthError } from '../errors';
 import { AuthService } from './auth.service';
 import { AuthRequestDTO } from './dto';
 import { User } from './entities';
-
-import { AuthError } from '../errors';
 
 jest.mock('bcrypt');
 const mockBcrypt = bcrypt as jest.Mocked<typeof bcrypt>;
