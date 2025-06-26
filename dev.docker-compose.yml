@@ -1,0 +1,31 @@
+services:
+  dsalta-api:
+    container_name: dsalta-api
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '${PORT}:${PORT}'
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    depends_on:
+      - dsalta-postgres
+
+  dsalta-postgres:
+    image: postgres:17
+    container_name: dsalta-postgres
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - '${DB_PORT}:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
