@@ -50,6 +50,14 @@ describe('TaskService', () => {
 						remove: jest.fn(),
 					},
 				},
+				{
+					provide: 'CACHE_MANAGER',
+					useValue: {
+						get: jest.fn(),
+						set: jest.fn(),
+						del: jest.fn(),
+					},
+				},
 			],
 		}).compile();
 
@@ -80,14 +88,13 @@ describe('TaskService', () => {
 	});
 
 	describe('findAll', () => {
-		it('should return all tasks ordered by createdAt DESC when no filters applied', async () => {
+		it('should return all tasks ordered by createdAt DESC without any filters', async () => {
 			const mockTasks = [mockTask];
 			repository.find.mockResolvedValue(mockTasks);
 
 			const result = await service.findAll();
 
 			expect(repository.find).toHaveBeenCalledWith({
-				where: {},
 				order: { createdAt: 'DESC' },
 			});
 
@@ -98,12 +105,22 @@ describe('TaskService', () => {
 			});
 		});
 
+		it('should return empty array when no tasks exist', async () => {
+			repository.find.mockResolvedValue([]);
+
+			const result = await service.findAll();
+
+			expect(result).toEqual([]);
+		});
+	});
+
+	describe('findAllWithFilter', () => {
 		it('should filter tasks by category when category filter is provided', async () => {
 			const mockTasks = [mockTask];
 			repository.find.mockResolvedValue(mockTasks);
 
 			const filters: TaskFilterDTO = { category: TaskCategory.MONITORING };
-			const result = await service.findAll(filters);
+			const result = await service.findAllWithFilter(filters);
 
 			expect(repository.find).toHaveBeenCalledWith({
 				where: { category: TaskCategory.MONITORING },
@@ -118,7 +135,7 @@ describe('TaskService', () => {
 			repository.find.mockResolvedValue(mockTasks);
 
 			const filters: TaskFilterDTO = { framework: TaskFramework.DSALTA };
-			const result = await service.findAll(filters);
+			const result = await service.findAllWithFilter(filters);
 
 			expect(repository.find).toHaveBeenCalledWith({
 				where: { framework: TaskFramework.DSALTA },
@@ -136,7 +153,7 @@ describe('TaskService', () => {
 				category: TaskCategory.MONITORING,
 				framework: TaskFramework.DSALTA,
 			};
-			const result = await service.findAll(filters);
+			const result = await service.findAllWithFilter(filters);
 
 			expect(repository.find).toHaveBeenCalledWith({
 				where: {
@@ -149,10 +166,11 @@ describe('TaskService', () => {
 			expect(result).toHaveLength(1);
 		});
 
-		it('should return empty array when no tasks exist', async () => {
+		it('should return empty array when no filtered tasks exist', async () => {
 			repository.find.mockResolvedValue([]);
 
-			const result = await service.findAll();
+			const filters: TaskFilterDTO = { category: TaskCategory.MONITORING };
+			const result = await service.findAllWithFilter(filters);
 
 			expect(result).toEqual([]);
 		});

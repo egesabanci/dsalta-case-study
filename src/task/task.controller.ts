@@ -60,18 +60,31 @@ export class TaskController implements ITaskController {
 	@Get()
 	@ApiOperation({
 		summary: 'Get all tasks',
-		description:
-			'Retrieve a list of all tasks with optional filtering by category and/or framework',
+		description: 'Retrieve a list of all tasks without any filtering',
 	})
 	@ApiResponse({
 		status: HttpStatus.OK,
 		description: 'Tasks retrieved successfully',
 		type: [TaskResponseDTO],
 	})
-	public async findAll(
+	public async findAll(): Promise<TaskResponseDTO[]> {
+		return this.taskService.findAll();
+	}
+
+	@Get('filter')
+	@ApiOperation({
+		summary: 'Get filtered tasks',
+		description: 'Retrieve a list of tasks filtered by category and/or framework',
+	})
+	@ApiResponse({
+		status: HttpStatus.OK,
+		description: 'Filtered tasks retrieved successfully',
+		type: [TaskResponseDTO],
+	})
+	public async findAllWithFilter(
 		@Query() filters: TaskFilterDTO,
 	): Promise<TaskResponseDTO[]> {
-		return this.taskService.findAll(filters);
+		return this.taskService.findAllWithFilter(filters);
 	}
 
 	@Get(':id')

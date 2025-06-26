@@ -30,8 +30,16 @@ export class TaskService implements ITaskService {
 		return plainToInstance(TaskResponseDTO, savedTask);
 	}
 
-	@Cached((filters?: TaskFilterDTO) => `all-tasks:${JSON.stringify(filters)}`)
-	public async findAll(filters?: TaskFilterDTO): Promise<TaskResponseDTO[]> {
+	@Cached(() => 'all-tasks')
+	public async findAll(): Promise<TaskResponseDTO[]> {
+		const tasks = await this.taskRepository.find({
+			order: { createdAt: 'DESC' },
+		});
+
+		return plainToInstance(TaskResponseDTO, tasks);
+	}
+
+	public async findAllWithFilter(filters: TaskFilterDTO): Promise<TaskResponseDTO[]> {
 		const where: any = {};
 
 		if (filters?.category) {
@@ -73,6 +81,7 @@ export class TaskService implements ITaskService {
 		Object.assign(task, payload);
 		const updatedTask = await this.taskRepository.save(task);
 
+		await this.cacheManager.del('all-tasks');
 		await this.cacheManager.del(`task:${id}`);
 
 		return plainToInstance(TaskResponseDTO, updatedTask);

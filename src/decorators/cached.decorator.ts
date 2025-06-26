@@ -9,7 +9,7 @@ export interface CacheOptions {
 
 export function Cached(
 	keyGenerator: (...args: any[]) => string,
-	options: CacheOptions = { ttl: 1000 * 60 * 60 }, // default 1-hour
+	options: CacheOptions = { ttl: 1000 * 60 * 60 },
 ) {
 	return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
 		const originalMethod = descriptor.value;

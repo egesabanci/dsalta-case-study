@@ -89,13 +89,42 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/task?framework=DSALTA-1&category=MAINTENANCE",
+							"raw": "localhost:3000/task",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"task"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-all-tasks-with-filter",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMTY5ZDAzZi1lNzI3LTRhNGEtYjg0Ny0yYjg2ODdlZTQ2ZGEiLCJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwiaWF0IjoxNzUwOTE5MjE3fQ.7KZMEBR94gPvzgSZZM42sTCWpRXoLtzYHwwPB7Gfa8Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/task/filter?framework=DSALTA-1&category=MAINTENANCE",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"task",
+								"filter"
 							],
 							"query": [
 								{
