@@ -1,19 +1,35 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { config } from 'ormconfig';
+import { AuthGuard } from '@dsalta-case/guards';
 
-import { AppController } from './app.controller';
+import { AuthModule } from '@dsalta-case/auth';
 
-const controllers = [AppController];
+import { config } from '../ormconfig';
 
-const modules = [TypeOrmModule.forRoot({ ...config })];
+const modules = [
+  TypeOrmModule.forRoot({ ...config }),
+  ConfigModule.forRoot({ isGlobal: true }),
+  JwtModule.register({
+    global: true,
+    secret: process.env.JWT_SECRET,
+  }),
 
-const providers = [];
+  AuthModule,
+];
+
+const providers = [
+  {
+    provide: APP_GUARD,
+    useClass: AuthGuard,
+  },
+];
 
 @Module({
   imports: [...modules],
-  controllers: [...controllers],
   providers: [...providers],
 })
 export class AppModule {}
