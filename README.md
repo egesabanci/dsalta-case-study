@@ -153,6 +153,52 @@ npm run typeorm:migration:revert
 - **Development**: `http://localhost:3000`
 - **Swagger Documentation**: `http://localhost:3000/apidocs`
 
+### Postman Collection
+
+A complete Postman collection is provided for easy API testing and development.
+
+**Collection Location**: `/postman/api-testing.collection.json`
+
+#### Importing the Collection
+
+1. **Open Postman**
+2. **Import the collection**:
+   - Click "Import" button in Postman
+   - Select "File" tab
+   - Choose `postman/api-testing.collection.json` from the project directory
+   - Click "Import"
+
+#### Collection Contents
+
+The collection includes all API endpoints:
+- **Authentication**: signup, login
+- **Task Management**: CRUD operations, filtering
+- **Pre-configured requests** with sample data
+- **Bearer token authentication** setup
+
+#### Using the Collection
+
+1. **Start with Authentication**:
+   - Use `auth/signup` to create a new user
+   - Use `auth/login` to get a JWT token
+   - Copy the token from the response
+
+2. **Set Authorization**:
+   - The collection includes sample bearer tokens
+   - Replace with your actual token in each request's Authorization tab
+   - Or set up a collection variable for the token
+
+3. **Test Endpoints**:
+   - All requests include sample data
+   - Modify request bodies and parameters as needed
+   - Task IDs in URLs should be replaced with actual task IDs from your responses
+
+#### Tips for Usage
+
+- **Update Bearer Tokens**: Replace the hardcoded tokens with fresh ones from login
+- **Replace Task IDs**: Update task IDs in URLs with actual IDs from your database
+- **Modify Sample Data**: Customize request bodies to test different scenarios
+
 ### Authentication
 
 All task endpoints require JWT authentication. Include the token in the Authorization header:
