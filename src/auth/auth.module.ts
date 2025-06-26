@@ -12,9 +12,9 @@ const providers = [AuthService];
 const controllers = [AuthController];
 
 @Module({
-  imports: [...modules],
-  controllers: [...controllers],
-  providers: [...providers],
-  exports: [...providers],
+	imports: [...modules],
+	controllers: [...controllers],
+	providers: [...providers],
+	exports: [...providers],
 })
 export class AuthModule {}

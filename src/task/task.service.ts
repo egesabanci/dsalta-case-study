@@ -1,64 +1,66 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+
 import { Repository } from 'typeorm';
+
 import { plainToInstance } from 'class-transformer';
 
+import { CreateTaskDTO, TaskResponseDTO, UpdateTaskDTO } from './dto';
 import { Task } from './entities/task.entity';
 import { ITaskService } from './interfaces';
-import { CreateTaskDTO, UpdateTaskDTO, TaskResponseDTO } from './dto';
 
 @Injectable()
 export class TaskService implements ITaskService {
-  constructor(
-    @InjectRepository(Task)
-    private taskRepository: Repository<Task>,
-  ) {}
+	constructor(
+		@InjectRepository(Task)
+		private taskRepository: Repository<Task>,
+	) {}
 
-  public async create(payload: CreateTaskDTO): Promise<TaskResponseDTO> {
-    const task = this.taskRepository.create(payload);
-    const savedTask = await this.taskRepository.save(task);
-    return plainToInstance(TaskResponseDTO, savedTask);
-  }
+	public async create(payload: CreateTaskDTO): Promise<TaskResponseDTO> {
+		const task = this.taskRepository.create(payload);
+		const savedTask = await this.taskRepository.save(task);
+		return plainToInstance(TaskResponseDTO, savedTask);
+	}
 
-  public async findAll(): Promise<TaskResponseDTO[]> {
-    const tasks = await this.taskRepository.find({
-      order: { createdAt: 'DESC' },
-    });
-    return plainToInstance(TaskResponseDTO, tasks);
-  }
+	public async findAll(): Promise<TaskResponseDTO[]> {
+		const tasks = await this.taskRepository.find({
+			order: { createdAt: 'DESC' },
+		});
+		return plainToInstance(TaskResponseDTO, tasks);
+	}
 
-  public async findOne(id: string): Promise<TaskResponseDTO> {
-    const task = await this.taskRepository.findOne({ where: { id } });
+	public async findOne(id: string): Promise<TaskResponseDTO> {
+		const task = await this.taskRepository.findOne({ where: { id } });
 
-    if (!task) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
-    }
+		if (!task) {
+			throw new NotFoundException(`Task with ID ${id} not found`);
+		}
 
-    return plainToInstance(TaskResponseDTO, task);
-  }
+		return plainToInstance(TaskResponseDTO, task);
+	}
 
-  public async update(
-    id: string,
-    payload: UpdateTaskDTO,
-  ): Promise<TaskResponseDTO> {
-    const task = await this.taskRepository.findOne({ where: { id } });
+	public async update(
+		id: string,
+		payload: UpdateTaskDTO,
+	): Promise<TaskResponseDTO> {
+		const task = await this.taskRepository.findOne({ where: { id } });
 
-    if (!task) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
-    }
+		if (!task) {
+			throw new NotFoundException(`Task with ID ${id} not found`);
+		}
 
-    Object.assign(task, payload);
-    const updatedTask = await this.taskRepository.save(task);
-    return plainToInstance(TaskResponseDTO, updatedTask);
-  }
+		Object.assign(task, payload);
+		const updatedTask = await this.taskRepository.save(task);
+		return plainToInstance(TaskResponseDTO, updatedTask);
+	}
 
-  public async delete(id: string): Promise<void> {
-    const task = await this.taskRepository.findOne({ where: { id } });
+	public async delete(id: string): Promise<void> {
+		const task = await this.taskRepository.findOne({ where: { id } });
 
-    if (!task) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
-    }
+		if (!task) {
+			throw new NotFoundException(`Task with ID ${id} not found`);
+		}
 
-    await this.taskRepository.remove(task);
-  }
+		await this.taskRepository.remove(task);
+	}
 }

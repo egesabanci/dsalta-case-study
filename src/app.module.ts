@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
-import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from '@dsalta-case/auth';
-import { TaskModule } from '@dsalta-case/task';
 import { AuthGuard } from '@dsalta-case/guards';
+import { TaskModule } from '@dsalta-case/task';
 
 import { config } from '../ormconfig';
 
