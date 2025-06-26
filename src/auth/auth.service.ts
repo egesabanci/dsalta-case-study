@@ -8,7 +8,7 @@ import { User } from './entities';
 import { IAuthService } from './interfaces';
 import { AuthRequestDTO, AuthResponseDTO } from './dto';
 
-import { AuthError } from '@dsalta-case/errors';
+import { AuthError } from '../errors';
 
 @Injectable()
 export class AuthService implements IAuthService {
