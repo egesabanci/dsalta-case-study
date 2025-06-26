@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "c9b5d654-93d2-4c6f-81a5-0ef17b0393ef",
+		"name": "DSALTA - Case Study API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17907455"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@email.com\",\n    \"password\": \"test-password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/auth/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@email.com\",\n    \"password\": \"test-password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "task",
+			"item": [
+				{
+					"name": "get-all-tasks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMTY5ZDAzZi1lNzI3LTRhNGEtYjg0Ny0yYjg2ODdlZTQ2ZGEiLCJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwiaWF0IjoxNzUwOTE5MjE3fQ.7KZMEBR94gPvzgSZZM42sTCWpRXoLtzYHwwPB7Gfa8Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/task?framework=DSALTA-1&category=MAINTENANCE",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"task"
+							],
+							"query": [
+								{
+									"key": "framework",
+									"value": "DSALTA-1"
+								},
+								{
+									"key": "category",
+									"value": "MAINTENANCE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMTY5ZDAzZi1lNzI3LTRhNGEtYjg0Ny0yYjg2ODdlZTQ2ZGEiLCJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwiaWF0IjoxNzUwOTE5MjE3fQ.7KZMEBR94gPvzgSZZM42sTCWpRXoLtzYHwwPB7Gfa8Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Monitor system health\",\n    \"description\": \"Monitor the overall health of the system components\",\n    \"framework\": \"DSALTA\",\n    \"category\": \"MONITORING\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/task",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"task"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-task-by-id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMTY5ZDAzZi1lNzI3LTRhNGEtYjg0Ny0yYjg2ODdlZTQ2ZGEiLCJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwiaWF0IjoxNzUwOTE5MjE3fQ.7KZMEBR94gPvzgSZZM42sTCWpRXoLtzYHwwPB7Gfa8Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/task/f0dde48b-4a04-4773-9312-0f6ad94b4009",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"task",
+								"f0dde48b-4a04-4773-9312-0f6ad94b4009"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-task-by-id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMTY5ZDAzZi1lNzI3LTRhNGEtYjg0Ny0yYjg2ODdlZTQ2ZGEiLCJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwiaWF0IjoxNzUwOTE5MjE3fQ.7KZMEBR94gPvzgSZZM42sTCWpRXoLtzYHwwPB7Gfa8Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"IN_PROGRESS\",\n    \"framework\": \"DSALTA-1\",\n    \"category\": \"MAINTENANCE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/task/8e68570a-b8ab-4f3a-b90a-9b70eeda3941",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"task",
+								"8e68570a-b8ab-4f3a-b90a-9b70eeda3941"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-task-by-id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMTY5ZDAzZi1lNzI3LTRhNGEtYjg0Ny0yYjg2ODdlZTQ2ZGEiLCJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwiaWF0IjoxNzUwOTE5MjE3fQ.7KZMEBR94gPvzgSZZM42sTCWpRXoLtzYHwwPB7Gfa8Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/task/f0dde48b-4a04-4773-9312-0f6ad94b4009",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"task",
+								"f0dde48b-4a04-4773-9312-0f6ad94b4009"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

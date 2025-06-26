@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 
 import { plainToInstance } from 'class-transformer';
 
-import { CreateTaskDTO, TaskResponseDTO, UpdateTaskDTO } from './dto';
+import { CreateTaskDTO, TaskFilterDTO, TaskResponseDTO, UpdateTaskDTO } from './dto';
 import { Task } from './entities/task.entity';
 import { ITaskService } from './interfaces';
 
@@ -22,8 +22,19 @@ export class TaskService implements ITaskService {
 		return plainToInstance(TaskResponseDTO, savedTask);
 	}
 
-	public async findAll(): Promise<TaskResponseDTO[]> {
+	public async findAll(filters?: TaskFilterDTO): Promise<TaskResponseDTO[]> {
+		const where: any = {};
+
+		if (filters?.category) {
+			where.category = filters.category;
+		}
+
+		if (filters?.framework) {
+			where.framework = filters.framework;
+		}
+
 		const tasks = await this.taskRepository.find({
+			where,
 			order: { createdAt: 'DESC' },
 		});
 		return plainToInstance(TaskResponseDTO, tasks);

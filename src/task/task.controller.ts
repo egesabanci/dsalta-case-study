@@ -9,6 +9,7 @@ import {
 	Param,
 	Post,
 	Put,
+	Query,
 	UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -20,7 +21,7 @@ import {
 	ApiTags,
 } from '@nestjs/swagger';
 
-import { CreateTaskDTO, TaskResponseDTO, UpdateTaskDTO } from './dto';
+import { CreateTaskDTO, TaskFilterDTO, TaskResponseDTO, UpdateTaskDTO } from './dto';
 import { ITaskController } from './interfaces';
 import { TaskService } from './task.service';
 
@@ -54,15 +55,15 @@ export class TaskController implements ITaskController {
 	@Get()
 	@ApiOperation({
 		summary: 'Get all tasks',
-		description: 'Retrieve a list of all tasks',
+		description: 'Retrieve a list of all tasks with optional filtering by category and/or framework',
 	})
 	@ApiResponse({
 		status: HttpStatus.OK,
 		description: 'Tasks retrieved successfully',
 		type: [TaskResponseDTO],
 	})
-	public async findAll(): Promise<TaskResponseDTO[]> {
-		return this.taskService.findAll();
+	public async findAll(@Query() filters: TaskFilterDTO): Promise<TaskResponseDTO[]> {
+		return this.taskService.findAll(filters);
 	}
 
 	@Get(':id')

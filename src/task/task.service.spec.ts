@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 
-import { CreateTaskDTO, UpdateTaskDTO } from './dto';
+import { CreateTaskDTO, TaskFilterDTO, UpdateTaskDTO } from './dto';
 import { Task } from './entities/task.entity';
 import { TaskCategory, TaskFramework, TaskStatus } from './enums';
 import { TaskService } from './task.service';
@@ -80,22 +80,73 @@ describe('TaskService', () => {
 	});
 
 	describe('findAll', () => {
-		it('should return all tasks ordered by createdAt DESC', async () => {
+		it('should return all tasks ordered by createdAt DESC when no filters applied', async () => {
 			const mockTasks = [mockTask];
 			repository.find.mockResolvedValue(mockTasks);
 
 			const result = await service.findAll();
 
 			expect(repository.find).toHaveBeenCalledWith({
+				where: {},
 				order: { createdAt: 'DESC' },
 			});
 
 			expect(result).toHaveLength(1);
-
 			expect(result[0]).toMatchObject({
 				id: mockTask.id,
 				name: mockTask.name,
 			});
+		});
+
+		it('should filter tasks by category when category filter is provided', async () => {
+			const mockTasks = [mockTask];
+			repository.find.mockResolvedValue(mockTasks);
+
+			const filters: TaskFilterDTO = { category: TaskCategory.MONITORING };
+			const result = await service.findAll(filters);
+
+			expect(repository.find).toHaveBeenCalledWith({
+				where: { category: TaskCategory.MONITORING },
+				order: { createdAt: 'DESC' },
+			});
+
+			expect(result).toHaveLength(1);
+		});
+
+		it('should filter tasks by framework when framework filter is provided', async () => {
+			const mockTasks = [mockTask];
+			repository.find.mockResolvedValue(mockTasks);
+
+			const filters: TaskFilterDTO = { framework: TaskFramework.DSALTA };
+			const result = await service.findAll(filters);
+
+			expect(repository.find).toHaveBeenCalledWith({
+				where: { framework: TaskFramework.DSALTA },
+				order: { createdAt: 'DESC' },
+			});
+
+			expect(result).toHaveLength(1);
+		});
+
+		it('should filter tasks by both category and framework when both filters are provided', async () => {
+			const mockTasks = [mockTask];
+			repository.find.mockResolvedValue(mockTasks);
+
+			const filters: TaskFilterDTO = {
+				category: TaskCategory.MONITORING,
+				framework: TaskFramework.DSALTA,
+			};
+			const result = await service.findAll(filters);
+
+			expect(repository.find).toHaveBeenCalledWith({
+				where: {
+					category: TaskCategory.MONITORING,
+					framework: TaskFramework.DSALTA,
+				},
+				order: { createdAt: 'DESC' },
+			});
+
+			expect(result).toHaveLength(1);
 		});
 
 		it('should return empty array when no tasks exist', async () => {
