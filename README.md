@@ -126,7 +126,7 @@ npm run build
 npm run start:prod
 ```
 
-## 🔧 Development Commands
+## Development Commands
 
 ```bash
 # Linting and formatting
