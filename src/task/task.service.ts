@@ -1,7 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 import {
 	CreateTaskDTO,
@@ -11,12 +13,15 @@ import {
 } from './dto';
 import { Task } from './entities/task.entity';
 import { ITaskService } from './interfaces';
+import { Cached } from '../decorators/cached.decorator';
 
 @Injectable()
 export class TaskService implements ITaskService {
 	constructor(
 		@InjectRepository(Task)
 		private taskRepository: Repository<Task>,
+		@Inject(CACHE_MANAGER)
+		private cacheManager: Cache,
 	) {}
 
 	public async create(payload: CreateTaskDTO): Promise<TaskResponseDTO> {
@@ -25,6 +30,7 @@ export class TaskService implements ITaskService {
 		return plainToInstance(TaskResponseDTO, savedTask);
 	}
 
+	@Cached((filters?: TaskFilterDTO) => `all-tasks:${JSON.stringify(filters)}`)
 	public async findAll(filters?: TaskFilterDTO): Promise<TaskResponseDTO[]> {
 		const where: any = {};
 
@@ -43,6 +49,7 @@ export class TaskService implements ITaskService {
 		return plainToInstance(TaskResponseDTO, tasks);
 	}
 
+	@Cached((id: string) => `task:${id}`)
 	public async findOne(id: string): Promise<TaskResponseDTO> {
 		const task = await this.taskRepository.findOne({ where: { id } });
 
@@ -65,6 +72,9 @@ export class TaskService implements ITaskService {
 
 		Object.assign(task, payload);
 		const updatedTask = await this.taskRepository.save(task);
+
+		await this.cacheManager.del(`task:${id}`);
+
 		return plainToInstance(TaskResponseDTO, updatedTask);
 	}
 
