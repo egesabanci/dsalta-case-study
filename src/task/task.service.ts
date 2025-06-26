@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
@@ -14,6 +14,7 @@ import {
 import { Task } from './entities/task.entity';
 import { ITaskService } from './interfaces';
 import { Cached } from '../decorators/cached.decorator';
+import { TaskError } from '../errors';
 
 @Injectable()
 export class TaskService implements ITaskService {
@@ -62,7 +63,7 @@ export class TaskService implements ITaskService {
 		const task = await this.taskRepository.findOne({ where: { id } });
 
 		if (!task) {
-			throw new NotFoundException(`Task with ID ${id} not found`);
+			throw new TaskError.TaskNotFoundException(id);
 		}
 
 		return plainToInstance(TaskResponseDTO, task);
@@ -75,7 +76,7 @@ export class TaskService implements ITaskService {
 		const task = await this.taskRepository.findOne({ where: { id } });
 
 		if (!task) {
-			throw new NotFoundException(`Task with ID ${id} not found`);
+			throw new TaskError.TaskNotFoundException(id);
 		}
 
 		Object.assign(task, payload);
@@ -91,7 +92,7 @@ export class TaskService implements ITaskService {
 		const task = await this.taskRepository.findOne({ where: { id } });
 
 		if (!task) {
-			throw new NotFoundException(`Task with ID ${id} not found`);
+			throw new TaskError.TaskNotFoundException(id);
 		}
 
 		await this.taskRepository.remove(task);
