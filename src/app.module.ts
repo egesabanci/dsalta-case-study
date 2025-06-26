@@ -4,9 +4,9 @@ import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AuthGuard } from '@dsalta-case/guards';
-
 import { AuthModule } from '@dsalta-case/auth';
+import { TaskModule } from '@dsalta-case/task';
+import { AuthGuard } from '@dsalta-case/guards';
 
 import { config } from '../ormconfig';
 
@@ -19,6 +19,7 @@ const modules = [
   }),
 
   AuthModule,
+  TaskModule,
 ];
 
 const providers = [

@@ -4,7 +4,7 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 
 import { IS_PUBLIC_KEY } from '@dsalta-case/decorators';
 
-import { AuthError } from '@dsalta-case/common/errors';
+import { AuthError } from '@dsalta-case/errors';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
