@@ -1,6 +1,6 @@
 export enum TaskCategory {
-  MONITORING = 'Monitoring',
-  ACCESS_CONTROL = 'Access Control',
-  MAINTENANCE = 'Maintenance',
-  SECURITY_AUDIT = 'Security Audit',
+  MONITORING = 'MONITORING',
+  ACCESS_CONTROL = 'ACCESS_CONTROL',
+  MAINTENANCE = 'MAINTENANCE',
+  SECURITY_AUDIT = 'SECURITY_AUDIT',
 }
